@@ -1,0 +1,2 @@
+This is first line of the contact file. I will be read (hopefully) by the Node.js application.
+This is second line of the contact file.
