@@ -4,7 +4,7 @@ const fs = require('fs');
 const port = 8080;
 const myServer = http.createServer((req, res) => {
 
-    const log = `${Date.now()}: New Request received from ${req.url}\n`
+    const log = `${new Date().toLocaleTimeString()}: New Request received from ${req.url}\n`
 
     // appendFile takes a noParam callback
     fs.appendFile('log.txt', log, () => {

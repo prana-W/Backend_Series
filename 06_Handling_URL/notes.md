@@ -17,6 +17,7 @@ filter : "latest"
 
 # URL Handling in Node.js
 
-- By default, Node.js does not have a built-in URL parser.
-- However, it provides the `url` module to parse and manipulate URLs.
+- Latest versions of Node.js does include the `url` module by default.
+- However, just to be safe, we install the package.
+- URL Parser provides the `url` module to parse and manipulate URLs.
 - Therefore, we do `npm install url` to install the `url` module and use that to parse and get information about the URL.
