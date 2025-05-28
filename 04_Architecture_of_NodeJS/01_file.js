@@ -1,13 +1,5 @@
 const fs = require('fs');
 
-//! Blocking (Synchronous)
-console.log(1)
-const result = fs.readFileSync("./contact.txt", "utf-8");
-console.log(result);
-console.log(2)
-console.log(3)
-
-
 //! Non-blocking (Asynchronous)
 // Callback is required as a third argument to handle the asynchronous operation.
 console.log(4)
@@ -21,6 +13,16 @@ fs.readFile ('./contact.txt', "utf-8", (err, result) => {
 })
 console.log(6)
 console.log(7)
+
+
+//! Blocking (Synchronous)
+console.log(1)
+const result = fs.readFileSync("./contact.txt", "utf-8");
+console.log(result);
+console.log(2)
+console.log(3)
+
+
 
 
 

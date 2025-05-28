@@ -45,3 +45,5 @@ fs.mkdirSync("my-docs");
 fs.mkdirSync("mydocss2/a/b/c/d", { recursive: true }); // recursive option allows creating nested directories
 
 //! Note: Error is thrown if the file or directory already exists when using synchronous methods. For asynchronous methods, the callback function will receive an error if the operation fails.
+
+// Synchronous operation waits for the operation to complete before moving to the next line of code, while asynchronous operation does not wait and continues executing the next lines of code immediately.
