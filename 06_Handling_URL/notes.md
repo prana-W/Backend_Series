@@ -21,3 +21,5 @@ filter : "latest"
 - However, just to be safe, we install the package.
 - URL Parser provides the `url` module to parse and manipulate URLs.
 - Therefore, we do `npm install url` to install the `url` module and use that to parse and get information about the URL.
+
+REMEMBER: SETUP nodemon!!!!

@@ -1,0 +1,8 @@
+11:42:29 PM - GET /api/users
+11:44:24 PM - POST /api/users/
+11:44:49 PM - POST /api/users/
+11:53:18 PM - POST /api/users/
+11:53:26 PM - POST /api/users/
+11:54:06 PM - POST /api/users/
+11:56:17 PM - GET /api/users/2000
+11:56:21 PM - GET /api/users/20

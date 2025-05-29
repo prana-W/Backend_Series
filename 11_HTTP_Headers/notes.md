@@ -9,3 +9,5 @@ There are two types of HTTP headers:
 - Request Header can be sent from the frontend or here from the Postman. It can be accessed by req.headers in the backend.
 
 - Response Header can be sent by res.header(key, value) from the backend to the frontend, which can be viewed in dev tools or Postman. We append X- in the start of the key in custom header as a good practice.
+
+Read more about from MDN docs
