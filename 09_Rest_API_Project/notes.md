@@ -27,3 +27,12 @@
 - Import the `users.json` file in index.js (using require keyword)
 - Now for /api/users, we will return the data from the users.json in JSON format
 - For /users, we will return the data in HTML format
+
+We will be using Postman to test our API.
+
+-  For GET, paste the link in Postman and select GET method.
+
+- For POST, paste the link in Postman and select POST method and then go to Body and select x-www-form-urlencoded and add the data in the form.
+- But when we send the data, we will get undefined in console as express does not know what kind of data is sent.
+- Thus, we use a middleware (app.use(express.urlencoded({extended: false}))) to parse the data.
+- After getting the JSON data in req.body, we can use it to create a new user and add it to the database (but here we will just add it to the users.json file).

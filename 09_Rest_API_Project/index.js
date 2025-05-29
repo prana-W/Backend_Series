@@ -1,7 +1,12 @@
 const express = require('express')
 const users = require('./users.json')
+const fs = require('fs')
 const app = express()
 const port = 4000;
+// Middlewares
+
+// The below middleware operates on every request and is used to put the urlencoded data (form data) into the body of the request
+app.use(express.urlencoded({extended: false}))
 
 //Routes
 
@@ -25,9 +30,22 @@ app.get('/users', (req, res) => {
 app.get('/api/users', (req, res) => {
     return res.json(users) // res.json() sends a JSON response
 })
+
+//! NOTE:
+// urlencoded data is sent from the postman which needs to be parsed by the express middleware and pass into the body of the request
 app.post('/api/users', (req, res) => {
-    //TODO: create new user
-    return res.json({status: 'pending'})
+    const body = req.body; // req.body gets the body of the request from frontend (here from postman)
+    users.push({id: users.length + 1, ...body});
+
+    //! Remember to JSON.stringify
+    fs.writeFile('./users.json', JSON.stringify(users), (err, data) => {
+        if (err) {
+            return res.json({status: 'fail', error: 'Could not save user.'})
+        }
+        console.log('User saved successfully')
+        return res.json({status: 'success', message: `id: ${users.length} User added successfully!`})
+    })
+
 })
 
 ///////////////////////////////////////////////////////////////////////////
@@ -44,24 +62,54 @@ app.get('/api/users/:userId', (req, res) => {
     res.json([user])
 })
 app.patch('/api/users/:userId', (req, res) => {
-    //TODO: edit user
-    res.json({status: 'pending'})
+
+    const newUsers = users.map((user) => {
+        if (user.id === Number(req.params.userId)) {
+            return {...user, ...req.body};
+        }
+        return user;
+    })
+
+    fs.writeFile('./users.json', JSON.stringify(newUsers), (err, data) => {
+
+        if (err) {
+            return res.json({status: 'fail', error: 'Could not update user.'})
+        }
+        console.log('User updated successfully')
+        return res.json({status: 'success', message: `User was updated successfully!`})
+
+    })
+
+
 })
 app.delete('/api/users/:userId', (req, res) => {
-    //TODO: delete user
-    res.json({status: 'pending'})
+
+    const newUsers = users.filter((user) => user.id !== Number(req.params.userId))
+
+    if (newUsers.length === users.length) {
+        return res.json ({status: 'fail', error: 'User not found'})
+    }
+
+    fs.writeFile('./users.json', JSON.stringify(newUsers), (err, data) => {
+        if (err) {
+            return res.json({status: 'fail', error: 'Could not delete user.'})
+        }
+        console.log('User deleted successfully')
+        return res.json({status: 'success', message: `User was deleted successfully!`})
+
+    })
 })
 
 //! NOTE:
 // The above three methods are implemented on the same route. Therefore, we can shorten the code by doing:
 app.route('/api/v2/users/:userId')
-    .get ((req, res) => {
+    .get((req, res) => {
         //add above get method code here
     })
-    .patch ((req, res) => {
+    .patch((req, res) => {
         //add above put method code here
     })
-    .delete ((req, res) => {
+    .delete((req, res) => {
         //add above delete method code here
     })
 
