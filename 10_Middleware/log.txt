@@ -1,0 +1,4 @@
+5:45:29 PM - PATCH /api/users/2
+5:45:32 PM - DELETE /api/users/1
+5:45:42 PM - DELETE /api/users/1
+5:45:44 PM - GET /api/users
