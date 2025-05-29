@@ -4,61 +4,18 @@ const fs = require('fs')
 const app = express()
 const port = 4000;
 
-//! Middlewares
-//? app.use() is used to register middleware functions in Express.
-
-// this has next() in it by default
-
-// it does some processing on the incoming data and then store it in req.body (just like we added a custom property in middleware 2, which makes the req.body give the form data and not undefined)
 app.use(express.urlencoded({extended: false}))
-app.use(express.json()) // this is used to parse JSON data from the request body and make it available in req.body
-
-// Below is a middleware that logs
 app.use((req, res, next) => {
     fs.appendFile('./log.txt',
         `${new Date().toLocaleTimeString()} - ${req.method} ${req.path}\n`, (err, data) => {
-            next(); //we are doing next() to continue to the next middleware or route handler when appended
+            next();
         }
     )
 })
 
-app.use((req, res, next) => {
-    console.log('Hello Middleware 1');
-    next() // this is a reference to the next middleware function in the stack (or next route if none)
-})
-
-app.use((req, res, next) => {
-    console.log('Hello Middleware 2');
-    // We can add custom properties or methods to request or response objects and use it anywhere below (in middlewares or routes)
-    req.customProperty2 = 'This is a custom property added by Middleware 2';
-    next()
-})
-
-app.use((req, res, next) => {
-    console.log(req.customProperty2);
-    console.log('Hello Middleware 3');
-    // next()
-    //! Since we didn't use next(), we won't be able to reach the next middleware or route handler. Page will try to load forever.
-})
-
-// will only reach here if used next() in the previous middleware
-app.use((req, res, next) => {
-    console.log('Hello Middleware 4');
-    return res.end() //This ends the response, so no further middleware or route handlers will be executed.
-
-    // For normal flow - remove the res.end() from the above and add next() in this and all the previous middlewares
-    // next()
-
-})
-
-//! Routes
-
-// will only reach here if used next() in the previous middleware
 app.get('/', (req, res) => {
-    console.log(req.customProperty2);
     return res.send('Welcome to the REST API Project!')
 })
-
 app.get('/users', (req, res) => {
 
     const html = `
@@ -67,13 +24,16 @@ app.get('/users', (req, res) => {
 
     return res.send(html)
 })
-
-//! REST API Points
-
 app.get('/api/users', (req, res) => {
+
+    //! Request Headers can be added through Postman (or Frontend)
+    console.log(req.headers)
+    //! We are adding a response Header (can be checked through Postman or browser dev tools)
+    res.setHeader('X-MyName', 'Pranaw Kumar') //custom header
+    //! NOTE:
+    // It is a good practice to add X to a custom header in the start
     return res.json(users)
 })
-
 app.post('/api/users', (req, res) => {
     const body = req.body;
     users.push({id: users.length + 1, ...body});
@@ -84,7 +44,6 @@ app.post('/api/users', (req, res) => {
         console.log('User saved successfully')
         return res.json({status: 'success', message: `id: ${users.length} User added successfully!`})
     })
-
 })
 
 app.route('/api/users/:userId')
@@ -133,8 +92,6 @@ app.route('/api/users/:userId')
         })
     })
 
-
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
-
