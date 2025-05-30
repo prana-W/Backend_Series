@@ -6,6 +6,8 @@
 - We can also have a graphical view of the database using MongoDB Compass.
 - We can also use Database option in WebStorm to connect to MongoDB.
 
+NOTE: Currently MongoDB is in our local storage, so there is no problem, but if we use cloud MongoDB, we should put the url in .env file otherwise we will expose our database credentials to the public.
+
 # MongoDB 
 
 We have multiple databases, inside which we have collections and inside which we can have multiple documents.
