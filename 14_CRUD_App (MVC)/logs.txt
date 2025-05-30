@@ -8,3 +8,7 @@
 2:07:26 PM - GET /users
 2:07:47 PM - POST /api/users/
 2:07:52 PM - POST /api/users/
+6:55:27 PM - GET /
+6:55:27 PM - GET /
+6:55:31 PM - GET /
+6:55:39 PM - GET /.well-known/appspecific/com.chrome.devtools.json
