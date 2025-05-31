@@ -1,3 +1,7 @@
+# ATTENTION!!
+
+SSR is added in next chapter. Kindly check next chapter for finished project.
+
 # Introduction
 
 We are making a URL shortner project, that will generate a short URL for a given long URL, and will redirect to the long URL when the short URL is accessed.
