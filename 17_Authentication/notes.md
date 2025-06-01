@@ -21,11 +21,29 @@
 - Now we will need to make a unique session id whenever the user logs in and keep back that id to the client.
 - So, to generate this we will be using uuid package.
   - Import this in user.controller.js and use it to generate a unique id.
-- Make a `utils` directory and add a auth.util.js. This is a service inside which, we will use hash map to create mapping between sessionId and user object and also get/return mapped user when provided by sessionId.
-- Import both the function in the user.controller.js and pass the sessionId into the cookies.
+- Make a `services` directory and add a auth.service.js. This is a service inside which, we will use hash map to create mapping between sessionId and user object and also get/return mapped user when provided by sessionId.
+- Import both the function in the user.controller.js cand pass the sessionId into the cookies.
 - Now we will make a middleware which takes this cookie (sessionId) and check if it Maps to any user, if it does that let the request be fulfileed else reject.
+- Since we are using cookies, we need to parse it to be able to use it. Therefore, install cookie-parser package and use it in index.js
+- We will setUser whenever we login with the user, there sessionId and user._id in auth.service.js in sessions collection
+- We also make getUser function which return the userId and takes sessionId as parameter. This function is called in auth.middleware.js in various places, wher we first fetch uid from the cookies stored in the browser and then pass that in the getUser, if we get a valid user from there then we make the request else redirect the user to login page.
+- This prevents random user from acessing other datas.
+- Also we fetch the user data only in API end-points and home page.
+
+## Commonly made mistake
+
+- Always use optional chaining when trying to access properties of an object which may not be present. This will prevent the code from crashing. 
+  - Example: sessionObj?.userId (if not found returns undefined instead of crashing)
+- Use inline middlewares to prevent unauthorised access to routes.
+- Use return keyword always!
+  - Example: return res.redirect('/login'); return res.send() etc
+  - This prevents the code from executing further and returns from the present function.
+- Use try-catch block in async-await.
+- DB is in another continent!
 
 
+
+CONS of stateful authentication: We can see that steful authentication is very resource intensive, as we also need to maintian the state of the user in the database.
 
 2. Stateless Authentication
 - It doesn't have any state in the server-side

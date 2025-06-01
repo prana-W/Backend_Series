@@ -1,22 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const URL = require('../models/url.model');
+const {
+    handleUserDefinedUrls, handleLoginUser, handleSignupUser
+} = require('../controllers/static.controller')
 
-router.get('/', async (req, res) => {
-    const allUrls = await URL.find({})
-    return res.render('home.ejs', {
-        allUrls
-    })
-})
+router.get('/', handleUserDefinedUrls)
 
-router.get('/user/signup', (req, res) => {
-    return res.render('signup.ejs')
-})
+router.get('/user/signup', handleSignupUser)
 
-router.get('/user/login', (req, res) => {
-    return res.render('login.ejs')
-})
-
+router.get('/user/login', handleLoginUser)
 
 
 module.exports = router;

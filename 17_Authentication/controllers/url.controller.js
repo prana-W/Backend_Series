@@ -6,7 +6,7 @@ const URL = require('../models/url.model');
 
 const handleGetRequest = async (req, res) => {
     try {
-        const allData = await URL.find({});
+        const allData = await URL.find({createdBy: req.userId}); // Fetching all the URLs created by the user
         res.send(allData);
     } catch (err) {
         res.status(500).send({error: err});
@@ -20,7 +20,7 @@ const handleGenerateShortUrl = async (req, res) => {
             throw new Error('Redirect URL is not provided');
         }
         await URL.create({
-            shortId, redirectUrl: req.body.redirectUrl, visitHistory: []
+            shortId, redirectUrl: req.body.redirectUrl, visitHistory: [], createdBy: req.userId //req.userId is set by auth.middleware
         })
 
         //! We send the response as a rendered EJS page
@@ -55,21 +55,24 @@ const handleRedirect = async (req, res) => {
 const handleAnalytics = async (req, res) => {
     try {
 
-        const allData = await URL.find({});
+        const userDefinedData = await URL.find({createdBy: req.userId});
 
-        const analyticsData = await allData.map((data) => {
+        const analyticsData = await userDefinedData.map((data) => {
             return ({
                 shortUrl: `http://localhost:8001/url/${data.shortId}`,
                 redirectUrl: data.redirectUrl,
                 total_clicks: data.visitHistory.length,
-                last_time_visited: new Date(data.visitHistory[data.visitHistory.length - 1].timestamp).toLocaleTimeString()
+                last_time_visited: new Date(data.visitHistory[data.visitHistory.length - 1]?.timestamp).toLocaleTimeString()
             })
         })
+
+        console.log(analyticsData)
 
         res.json(analyticsData);
 
     } catch (err) {
-        res.status(500).send({error: err});
+        console.log(err)
+        res.status(500).json({error: err});
     }
 }
 

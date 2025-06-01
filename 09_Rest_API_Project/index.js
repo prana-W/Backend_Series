@@ -53,7 +53,7 @@ app.post('/api/users', (req, res) => {
 // :id is for variable id
 app.get('/api/users/:userId', (req, res) => {
 
-    const id = Number(req.params.userId); // req.params.id gets the id from the URL
+    const id = Number(req.params.createdBy); // req.params.id gets the id from the URL
     const user = users.find((user) => user.id === id)
     if (!user) {
         return res.json({status: 'fail', error: 'User not found'})
@@ -64,7 +64,7 @@ app.get('/api/users/:userId', (req, res) => {
 app.patch('/api/users/:userId', (req, res) => {
 
     const newUsers = users.map((user) => {
-        if (user.id === Number(req.params.userId)) {
+        if (user.id === Number(req.params.createdBy)) {
             return {...user, ...req.body};
         }
         return user;
@@ -84,7 +84,7 @@ app.patch('/api/users/:userId', (req, res) => {
 })
 app.delete('/api/users/:userId', (req, res) => {
 
-    const newUsers = users.filter((user) => user.id !== Number(req.params.userId))
+    const newUsers = users.filter((user) => user.id !== Number(req.params.createdBy))
 
     if (newUsers.length === users.length) {
         return res.json ({status: 'fail', error: 'User not found'})

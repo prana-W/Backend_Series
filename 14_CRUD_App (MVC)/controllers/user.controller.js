@@ -10,7 +10,7 @@ const handleGetAllUsers = async (req, res) => {
 
 const handleGetUserById = async (req, res) => {
 
-    const user = await User.findById(req.params.userId)
+    const user = await User.findById(req.params.createdBy)
     if (!user) {
         return res.status(404).json({status: 'fail', error: 'User not found'})
     }
@@ -39,16 +39,16 @@ const handleCreateUser = async (req, res) => {
 
 const handleUpdateUserById = async (req, res) => {
 
-    await User.findByIdAndUpdate(req.params.userId, req.body)
+    await User.findByIdAndUpdate(req.params.createdBy, req.body)
 
-    return res.json({status: 'success', message: `User with id ${req.params.userId} was updated successfully!`})
+    return res.json({status: 'success', message: `User with id ${req.params.createdBy} was updated successfully!`})
 
 }
 
 const handleDeleteUserById = async (req, res) => {
 
-    await User.findByIdAndDelete(req.params.userId)
-    return res.json({status: 'success', message: `User with id ${req.params.userId} was deleted successfully!`})
+    await User.findByIdAndDelete(req.params.createdBy)
+    return res.json({status: 'success', message: `User with id ${req.params.createdBy} was deleted successfully!`})
 
 }
 

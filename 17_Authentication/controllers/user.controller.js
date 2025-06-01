@@ -1,6 +1,6 @@
 const User = require('../models/user.model');
 const {v4: uuidv4} = require('uuid');
-const {setUser, getUser} = require('../utils/auth.util')
+const {setUser} = require('../services/auth.service')
 
 const handleUserSignup = async (req, res) => {
 
@@ -42,7 +42,6 @@ const handleUserLogin = async (req, res) => {
          const sessionId = uuidv4();
          setUser(sessionId, user); // Mapping sessionId with user
          res.cookie('uid', sessionId); // sending a cookie as a response with cookie name 'uid' and value as sessionId
-
          //! This cookie doesn't reset even when the browser is closed.
 
          return res.redirect('/')
@@ -53,7 +52,5 @@ const handleUserLogin = async (req, res) => {
      }
 
 }
-
-
 
 module.exports = {handleUserSignup, handleUserLogin }

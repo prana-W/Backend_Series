@@ -90,7 +90,7 @@ app.post('/api/users', (req, res) => {
 app.route('/api/users/:userId')
     .get((req, res) => {
 
-        const id = Number(req.params.userId);
+        const id = Number(req.params.createdBy);
         const user = users.find((user) => user.id === id)
         if (!user) {
             return res.json({status: 'fail', error: 'User not found'})
@@ -100,7 +100,7 @@ app.route('/api/users/:userId')
     })
     .patch((req, res) => {
         const newUsers = users.map((user) => {
-            if (user.id === Number(req.params.userId)) {
+            if (user.id === Number(req.params.createdBy)) {
                 return {...user, ...req.body};
             }
             return user;
@@ -117,7 +117,7 @@ app.route('/api/users/:userId')
         })
     })
     .delete((req, res) => {
-        const newUsers = users.filter((user) => user.id !== Number(req.params.userId))
+        const newUsers = users.filter((user) => user.id !== Number(req.params.createdBy))
 
         if (newUsers.length === users.length) {
             return res.json({status: 'fail', error: 'User not found'})
