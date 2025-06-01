@@ -1,8 +1,6 @@
-# Authentication
+# Authentication 
 
-## Authentication Patterns
-
-1. Stateful Authentication
+## Stateful Authentication (Session based Authentication)
 - Maintains state (some data) in the server-side
 - Analogy: We go to a mall and want to park our car. THec ar is given to the parking boy, who takes the car, park it and gives us a token number. In his notebook, he writes the token number and also to what car does it belong. So when I come back later; and ask for my car and give him that token numnber, he can look up the car that is being pointed by that token and returns our car and deletes the entry from his notebook. This data in his notebook is the state.
 - Comparision: We, the client, give the server our email and password, and the server returns back session unique id (session uid). Whenever we want to make or access anything from the server, we have to show our id to the server and then the server checks to what user does the uid points in its state; and after verifying, it returns the data.
@@ -10,7 +8,7 @@
 - Express Flow:
   - Client makes a request in authMiddleware, which checks for cookie values or uid, only if valid, it allows next() else rejects the request.
 
-## Code
+### Code
 
 - Go to models directory and make user.model.js and add the schema for User here
 - Now inside the route directory, make user.route.js, which will have login, signup routes and in controller directory, make a user.controller.js which will have handlers for these routes
@@ -25,12 +23,12 @@
 - Import both the function in the user.controller.js cand pass the sessionId into the cookies.
 - Now we will make a middleware which takes this cookie (sessionId) and check if it Maps to any user, if it does that let the request be fulfileed else reject.
 - Since we are using cookies, we need to parse it to be able to use it. Therefore, install cookie-parser package and use it in index.js
-- We will setUser whenever we login with the user, there sessionId and user._id in auth.service.js in sessions collection
-- We also make getUser function which return the userId and takes sessionId as parameter. This function is called in auth.middleware.js in various places, wher we first fetch uid from the cookies stored in the browser and then pass that in the getUser, if we get a valid user from there then we make the request else redirect the user to login page.
+- We will use setUser whenever we login with the user, there sessionId and user._id in auth.service.js in sessions collection
+- We also make getUser function which return the user object and takes sessionId as parameter. This function is called in auth.middleware.js in various places, where we first fetch uid from the cookies stored in the browser and then pass that in the getUser, if we get a valid user from there then we make the request else redirect the user to login page.
 - This prevents random user from acessing other datas.
 - Also we fetch the user data only in API end-points and home page.
 
-## Commonly made mistake
+### Commonly made mistake
 
 - Always use optional chaining when trying to access properties of an object which may not be present. This will prevent the code from crashing. 
   - Example: sessionObj?.userId (if not found returns undefined instead of crashing)
@@ -41,9 +39,11 @@
 - Use try-catch block in async-await.
 - DB is in another continent!
 
+### CONS of stateful authentication: 
 
+- We can see that steful authentication is very resource intensive, as we also need to maintian the state of the user in the backend (server-side)
+- All users get logged out, once the server restarts, as the state is lost.
 
-CONS of stateful authentication: We can see that steful authentication is very resource intensive, as we also need to maintian the state of the user in the database.
-
-2. Stateless Authentication
+## Stateless Authentication (Token based Authentication)
 - It doesn't have any state in the server-side
+- Discussed in next lecture

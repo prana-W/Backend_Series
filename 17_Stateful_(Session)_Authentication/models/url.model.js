@@ -8,10 +8,10 @@ const urlSchema = new mongoose.Schema({
     },
     redirectUrl: {
         type: String,
-        unique: true,
         required: true
     },
     visitHistory: [{}, {timestamps: true}], // Array of objects to store visit history
+    // Created to track the original creator of the URL
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

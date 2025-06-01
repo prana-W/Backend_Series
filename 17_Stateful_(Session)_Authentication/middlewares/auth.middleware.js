@@ -1,23 +1,24 @@
 const {getUser} = require('../services/auth.service');
 
+// This middleware restricts unauthorized user from accessing certain routes (/url) and returns back the user to login page if not logged in
 const restrictToLoggedInUserOnly = async (req, res, next) => {
     try {
 
-        //! Note: Check how we are getting the uid from the cookie. ? is preventing the app from crashing if cookie is not present
+        //! Optional chaining is done almost everywhere, to prevent app from crashing, in case the property doesn't exist
         const userUid = req.cookies?.uid;
         if (!userUid) {
             return res.redirect('/user/login');
         }
 
-        const sessionObj = await getUser(userUid);
+        const user = await getUser(userUid);
 
-        if (!sessionObj) {
+        if (!user) {
             return res.redirect('/user/login');
         }
 
-        req.userId = sessionObj.createdBy; // passes the user Object from the backend to req object. Now whenever we make a request, we can access the user object using req.user
+        req.user = user; // pass the user object into request object for use in controllers
 
-        next()
+        next() // successfully passes on the request
 
     } catch (error) {
         res.json({
@@ -28,12 +29,12 @@ const restrictToLoggedInUserOnly = async (req, res, next) => {
     }
 }
 
-// This only adds user object into the request object, if available else puts null
+// This simply pass the user object to req object, if logged in else does nothing. This is used to pass on /analytics and / (home route), which we are allowing unauthorized users to access but not showing any result
 const getCurrentUser = async (req, res, next) => {
     try {
         const userUid = req.cookies?.uid;
-        const sessionObj = await getUser(userUid);
-        req.userId = sessionObj?.createdBy;
+        const user = await getUser(userUid);
+        req.user = user;
         next()
     } catch (error) {
         res.json({

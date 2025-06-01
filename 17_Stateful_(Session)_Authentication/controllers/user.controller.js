@@ -1,11 +1,12 @@
 const User = require('../models/user.model');
-const {v4: uuidv4} = require('uuid');
+const {v4: uuidv4} = require('uuid'); // requiring uuid syntax
 const {setUser} = require('../services/auth.service')
 
+// Handles user signup logic
 const handleUserSignup = async (req, res) => {
 
     try {
-        const {name, email, password} = req.body;
+        const {name, email, password} = req.body; // destructure the object from req.body (passed data from form)
 
         //TODO: Validate the input data
 
@@ -15,7 +16,7 @@ const handleUserSignup = async (req, res) => {
             password
         })
 
-        return res.redirect('/')
+        return res.redirect('/user/login') // Redirect to login route after successful signup
     }
     catch (error) {
         console.error('Error during user signup:', error);
@@ -24,17 +25,18 @@ const handleUserSignup = async (req, res) => {
 
 }
 
+// Handle Login
 const handleUserLogin = async (req, res) => {
 
      try {
 
          const {email, password} = req.body;
 
-         const user = await User.findOne({email, password})
+         const user = await User.findOne({email, password}) // Find one user
 
          if (!user) {
              return res.render('login.ejs', {
-                 errorMess: 'Invalid email or password'
+                 errorMess: 'Invalid email or password' //pass error incase of wrong credentials, to login.ejs, where the error message gets rendered in the page
              })
          }
 
@@ -44,7 +46,7 @@ const handleUserLogin = async (req, res) => {
          res.cookie('uid', sessionId); // sending a cookie as a response with cookie name 'uid' and value as sessionId
          //! This cookie doesn't reset even when the browser is closed.
 
-         return res.redirect('/')
+         return res.redirect('/') //Redirect to home
 
      }
      catch (error) {
