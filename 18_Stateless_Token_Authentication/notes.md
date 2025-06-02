@@ -21,3 +21,35 @@
 - Example for hacking:
 1. Copy jwt token of other user and paste in in broswer in place of your jwt token.
 2. Generate a new jwt token by providing with the payload of other user and secretKey. Then use the jwt token in the browser to log in into the other user account.
+
+### Cookies
+
+- Cookies are send by the server and is stored in the browser.
+- Then in every request, the browser always send the cookies back to the server.
+- Cookies are domain specific, meaning that if you set a cookie for `example.com`, it will not be sent to `another-example.com`.
+- We can also pass other options in res.cookie() like domain, expires etc
+- Cookies are browser specific and hence can't be accessed in mobile apps
+- So other way to sending the token is simply through res.json({}) and let the client handle the token by themselves. 
+- In case of mobile apps, we can store the token in their device storage or make a file. 
+- In such case we will ask the client to send the token in the headers of the request before accessing any route (which is protected). 
+- Then this token can saved somewhere in the client side (example device storage etc) and then on every request, the client can send the token in the headers of the request.
+- The standard way of sending the token in the headers is `Authorization: Bearer <token>`.
+
+THEREFORE, cookies can be use for web application, while headers can be used if we want to make the application work on varoius platforms like web, mobile. 
+
+
+### use.controller (inside handleUserLogin)
+```javascript
+
+return res.json({token}) // instead of res.cookie and return res.redirect()
+
+```
+
+### auth.middleware (restrictToLoggedInUserOnly and getCurrentUser)
+```javascript
+
+const userUid = req.headers['authorization']
+// some code here
+const token = userUid.split(' ')[1] // Bearer <token>
+
+```

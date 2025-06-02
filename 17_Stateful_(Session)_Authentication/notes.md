@@ -39,6 +39,7 @@
 - Use try-catch block in async-await.
 - DB is in another continent!
 
+
 ### CONS of stateful authentication: 
 
 - We can see that steful authentication is very resource intensive, as we also need to maintian the state of the user in the backend (server-side)
@@ -47,3 +48,9 @@
 ## Stateless Authentication (Token based Authentication)
 - It doesn't have any state in the server-side
 - Discussed in next lecture
+
+But can't we just store the session data in the database?
+NO!!!
+
+- It will increase the latency as database is in another continent increasing the delay.
+- If we access database for every request, it will increase the load on the database and also increase the cost of the project.
