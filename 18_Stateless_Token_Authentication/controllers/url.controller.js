@@ -29,7 +29,8 @@ const handleGenerateShortUrl = async (req, res) => {
 
         // If successful, re-render home.ejs and pass shortId
         return res.status(200).render('home.ejs', {
-            shortId: shortId
+            shortId: shortId,
+            domain: req.get('host') //transfers the current domain
         })
 
     } catch (error) {
@@ -39,7 +40,7 @@ const handleGenerateShortUrl = async (req, res) => {
     }
 }
 
-// When shortURL is visited, first add history in URL and then redirect user to original ur;
+// When shortURL is visited, first add history in URL and then redirect user to original url
 const handleRedirect = async (req, res) => {
     try {
         const id = await req.params.id;
@@ -63,10 +64,11 @@ const handleAnalytics = async (req, res) => {
     try {
 
         const userDefinedData = await URL.find({createdBy: req?.user?._id}); // user object is passed in auth.middleware.js
-
+        const domain = req.get('host'); //this is to get the domain of the current request
         const analyticsData = await userDefinedData.map((data) => {
+
             return ({
-                shortUrl: `http://localhost:8001/url/${data.shortId}`,
+                shortUrl: `http://${domain}/url/${data.shortId}`,
                 redirectUrl: data.redirectUrl,
                 total_clicks: data.visitHistory.length,
                 last_time_visited: new Date(data.visitHistory[data.visitHistory.length - 1]?.timestamp).toLocaleTimeString()

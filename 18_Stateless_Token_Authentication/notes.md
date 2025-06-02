@@ -1,3 +1,12 @@
+# NOTE
+
+- To access the server in mobile device, follow the given steps.
+- Connect to same wifi network as your computer.
+- Enter `hostname -U` in Linux terminal.
+- Copy the IP address in mobile browser follower by :PORT (example: http://192.168.1.10:3000)
+- Enjoy! 
+- Don't hardcode URLs in server. AVoid hardcoding localhost, instead use req.get('host') to get the domain of the request. 
+
 # Stateless Authentication
 
 - There is no state in the backend.

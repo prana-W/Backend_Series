@@ -130,7 +130,7 @@
 
     <% if (locals.shortId) { %>
         <div class="result">
-            Short URL: <a href="http://localhost:8001/url/<%= shortId %>" target="_blank">http://localhost:8001/url/<%= shortId %></a>
+            Short URL: <a href='http://<%=domain%>/url/<%=shortId %>' target="_blank">http://<%=domain%>/url/<%= shortId %></a>
         </div>
     <% } %>
 
