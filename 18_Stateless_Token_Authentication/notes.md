@@ -47,7 +47,7 @@
 THEREFORE, cookies can be use for web application, while headers can be used if we want to make the application work on varoius platforms like web, mobile. 
 
 
-### use.controller (inside handleUserLogin)
+### user.controller (inside handleUserLogin)
 ```javascript
 
 return res.json({token}) // instead of res.cookie and return res.redirect()

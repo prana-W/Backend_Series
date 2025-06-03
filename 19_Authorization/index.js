@@ -9,7 +9,7 @@ const urlRoute = require('./routes/url.route');
 const userRoute = require('./routes/user.route');
 const cookieParser = require('cookie-parser');
 
-const {restrictToLoggedInUserOnly, getCurrentUser} = require('./middlewares/auth.middleware') // Importing the auth middleware
+const {checkForAuthentication, restrictedTo} = require('./middlewares/auth.middleware') // Importing the auth middleware
 
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser())
@@ -23,16 +23,18 @@ app.use(express.json());
     })
 })();
 
-
-//! Setting up EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'))
 
-//! Using Inline middleware to restrict unauthorized users from accessing /url routes
-app.use('/url', restrictToLoggedInUserOnly, urlRoute)
 
-//! Using Inline middleware (getCurrentUser) to pass the current user into request body (if exists)
-app.use('/', getCurrentUser, staticRoute)
-app.get('/analytics', getCurrentUser, handleAnalytics)
+
+app.use(checkForAuthentication); //! We want to soft check for authentication on all routes
+
+//! Adding strict checking to the url route
+app.use('/url', restrictedTo(["NORMAL", "ADMIN"]), urlRoute)
+
+
+app.use('/', staticRoute)
+app.get('/analytics', handleAnalytics)
 
 app.use('/user', userRoute)

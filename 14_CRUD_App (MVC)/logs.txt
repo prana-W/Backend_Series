@@ -12,3 +12,13 @@
 6:55:27 PM - GET /
 6:55:31 PM - GET /
 6:55:39 PM - GET /.well-known/appspecific/com.chrome.devtools.json
+11:01:58 PM - GET /
+11:02:18 PM - GET /api/users
+11:02:18 PM - GET /favicon.ico
+1:24:40 AM - GET /
+1:24:41 AM - GET /
+1:24:46 AM - GET /users
+1:24:52 AM - GET /api/users/
+1:24:52 AM - GET /favicon.ico
+1:24:59 AM - GET /api/
+1:25:03 AM - GET /api/users/1
