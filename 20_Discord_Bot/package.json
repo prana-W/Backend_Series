@@ -1,0 +1,26 @@
+{
+  "name": "discord_bot_v0",
+  "version": "1.0.0",
+  "description": "This is a sample discord bot made in refernce to the Youtube lecture by Piyush Garg.",
+  "keywords": [
+    "discord",
+    "bot",
+    "node.js",
+    "backend"
+  ],
+  "license": "ISC",
+  "author": "Pranaw Kumar",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
